@@ -12,7 +12,11 @@ class Transaction {
     private Type type;
 
     public Transaction(Long id, String description, BigDecimal amount, LocalDate date, Type type) {
+        this(description, amount, date, type);
         this.id = id;
+    }
+
+    public Transaction(String description, BigDecimal amount, LocalDate date, Type type) {
         this.description = description;
         this.amount = amount;
         this.date = date;

@@ -2,7 +2,7 @@ CREATE DATABASE budget COLLATE utf8mb4_polish_ci;
 
 CREATE TABLE budget.transaction (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    type ENUM('Expenditure', 'Income') NOT NULL,
+    type ENUM('EXPENDITURE', 'INCOME') NOT NULL,
     description VARCHAR(2000) NOT NULL,
     amount DECIMAL(10 , 2 ) NOT NULL,
     date DATETIME NOT NULL

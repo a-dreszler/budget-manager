@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>Error</title>
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <h2>Error</h2>
+            <p th:text="${errorMessage}">Test error</p>
+            <a th:href="@{${referer ne null ? referer : '/'}}">
+                <p>Return to previous page</p>
+            </a>
+        </main>
+    </body>
+</html>

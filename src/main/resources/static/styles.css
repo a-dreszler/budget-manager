@@ -1,0 +1,53 @@
+* {
+    font-family: Arial, sans-serif;
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    color: dodgerblue;
+}
+
+header, footer {
+    text-align: center;
+}
+
+main {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin: 0 auto;
+}
+
+ul > li {
+    display: inline-block;
+    padding-right: 1rem;
+}
+
+ul {
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+}
+
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+}
+
+label, input, select {
+    display: block;
+    margin-bottom: 1rem;
+    width: 100%;
+}

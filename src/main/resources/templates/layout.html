@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+    <head layout:fragment="head">
+        <meta charset="UTF-8">
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Budget Manager</title>
+        <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <header>
+            <h1>Budget Manager App</h1>
+        </header>
+        <main layout:fragment="content">
+            Treść strony
+        </main>
+        <footer>
+            <p>Made by &copy;a-dreszler</p>
+        </footer>
+    </body>
+</html>

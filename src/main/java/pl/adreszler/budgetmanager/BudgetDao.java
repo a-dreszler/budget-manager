@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,7 +20,7 @@ class BudgetDao {
         this.connection = connection;
     }
 
-    boolean deleteTransaction(Integer id) {
+    boolean deleteTransaction(Long id) {
         final String sql = """
                 DELETE FROM
                     transaction
@@ -27,7 +29,7 @@ class BudgetDao {
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             int rowsDeleted = statement.executeUpdate();
 
             return rowsDeleted > 0;
@@ -38,10 +40,38 @@ class BudgetDao {
         return false;
     }
 
-    Optional<Transaction> readTransaction(Integer id) {
+    List<Transaction> readAllTransactions() {
         final String sql = """
                 SELECT
-                    (type, description, amount, date)
+                    *
+                FROM
+                    transaction
+                """;
+        List<Transaction> transactions = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet transactionResultSet = statement.executeQuery();
+            while (transactionResultSet.next()) {
+                transactions.add(
+                        new Transaction(
+                                transactionResultSet.getLong("id"),
+                                transactionResultSet.getString("description"),
+                                transactionResultSet.getBigDecimal("amount"),
+                                transactionResultSet.getObject("date", LocalDate.class),
+                                Type.valueOf(transactionResultSet.getString("type")))
+                        );
+            }
+        } catch (SQLException e) {
+            System.out.println("Nie udało się wczytać wszystkich transakcji: " + e.getMessage());
+        }
+
+        return transactions;
+    }
+
+    Optional<Transaction> readTransaction(Long id) {
+        final String sql = """
+                SELECT
+                    *
                 FROM
                     transaction
                 WHERE
@@ -49,7 +79,7 @@ class BudgetDao {
                 """;
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -58,8 +88,8 @@ class BudgetDao {
                         resultSet.getString("description"),
                         resultSet.getBigDecimal("amount"),
                         resultSet.getObject("date", LocalDate.class),
-                        resultSet.getObject("type", Type.class)
-                ));
+                        Type.valueOf(resultSet.getString("type")))
+                );
             }
 
         } catch (SQLException e) {
@@ -106,6 +136,7 @@ class BudgetDao {
             statement.setString(2, transaction.getDescription());
             statement.setBigDecimal(3, transaction.getAmount());
             statement.setObject(4, transaction.getDate());
+            statement.setLong(5, transaction.getId());
             int rowsUpdated = statement.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {

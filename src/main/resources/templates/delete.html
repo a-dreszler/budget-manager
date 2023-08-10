@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+    <head>
+        <title>Confirm deletion</title>
+    </head>
+    <body>
+        <main layout:fragment="content">
+            <h2>Confirm deletion</h2>
+            <p>You wanted to delete a following transaction:</p>
+            <div th:object="${transaction}">
+                <p th:text="|Name: *{description}|">Name: Test name</p>
+                <p th:text="|Amount: *{amount}|">Amount: Test amount</p>
+                <p th:text="|Date: *{date}|">Date: Test date</p>
+                <p th:text="|Type: *{type.nameEn}|">Type: Test type</p>
+
+                <a th:href="@{|/delete/confirm?id=${transaction.id}|}">
+                    <button>Confirm</button>
+                </a>
+                <a th:href="@{/}">
+                    <button>Cancel</button>
+                </a>
+            </div>
+        </main>
+    </body>
+</html>

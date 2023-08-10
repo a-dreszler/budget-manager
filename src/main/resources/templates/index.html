@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
     <head>
         <title>Home page</title>
@@ -10,21 +10,27 @@
         <main layout:fragment="content">
             <h2>Welcome to your own budget manager!</h2>
             <p>Here is your list of transactions</p>
-            <form>
+            <div>
                 <p>Filters:</p>
-                <p>Choose type</p>
-                <div class="form-field">
-                    <label for="all">All</label>
-                    <input type="radio" id="all" checked>
-                </div>
-                <div th:each="type: ${T(pl.adreszler.budgetmanager.Type).values()}" class="form-field">
-                    <label th:for="${type}" th:text="${type.nameEn}">Test type</label>
-                    <input th:for="${type}" type="radio">
-                </div>
-                <button type="submit">
-                    Filter
-                </button>
-            </form>
+                <ul>
+                    <li>
+                        <a href="/">
+                            All
+                        </a>
+                    </li>
+                    <li th:each="type: ${T(pl.adreszler.budgetmanager.Type).values()}">
+                        <a th:href="@{|/?type=${type}|}"  th:text="${type.nameEn}">
+                            Test type
+                        </a>
+                    </li>
+                </ul>
+                <p>
+                    <a th:href="@{/add}">
+                        Add new transaction
+                    </a>
+                </p>
+
+            </div>
             <table>
                 <thead>
                 <tr>
@@ -37,20 +43,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="transaction: ${transactions}" th:object="${transaction}">
+                <tr th:each="transaction: ${allTransactions}" th:object="${transaction}">
                     <td th:text="*{id}">1</td>
                     <td th:text="*{description}">Opel w gazie</td>
                     <td th:text="*{amount}">21.37</td>
                     <td th:text="*{date}">2002-11-22</td>
                     <td th:text="*{type.nameEn}">Expense</td>
                     <td>
-                        <a th:href="@{|/?edit=${id}|}" href="#">
-                            <button>Edit</button>
+                        <a th:href="@{|/edit?id=*{id}|}" href="#">
+                            Edit
                         </a>
                     </td>
                     <td>
-                        <a th:href="@{|/?delete=${id}|}" href="#">
-                            <button>Delete</button>
+                        <a th:href="@{|/delete?id=*{id}|}" href="#">
+                            Delete
                         </a>
                     </td>
                 </tr>

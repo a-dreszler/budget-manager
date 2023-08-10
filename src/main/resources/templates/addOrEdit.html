@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
     <head>
         <title th:if="${mode eq 'edit'}"
@@ -13,7 +13,7 @@
             <form method="post"
                   th:action="${mode eq 'add' ? '/add' : '/edit'}"
                   th:object="${transaction}">
-                <input type="hidden" th:value="*{id}">
+                <input type="hidden" th:field="*{id}">
                 <div>
                     <label for="description">Description</label>
                     <input type="text" id="description" th:field="*{description}" required>
@@ -28,13 +28,17 @@
                 </div>
                 <div>
                     <label for="type">Type</label>
-                    <select id="type">
+                    <select id="type" th:field="*{type}">
                         <option th:each="type: ${T(pl.adreszler.budgetmanager.Type).values()}"
+                                th:text="${type.nameEn}"
                                 th:value="${type}"
-                                th:text="${type.nameEn}">Test type</option>
+                                th:selected="${transaction.type == type}">Test type</option>
                     </select>
                 </div>
                 <button type="submit">Submit</button>
+                <a th:href="@{/}">
+                    <button type="button">Cancel</button>
+                </a>
             </form>
         </main>
     </body>
